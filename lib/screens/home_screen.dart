@@ -38,21 +38,6 @@ class _HomeScreenState extends State<HomeScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBox(
-                  width: screenWidth,
-                  child: Image.network(FirebaseAuth.instance.currentUser?.photoURL !=
-                          null
-                      ? FirebaseAuth.instance.currentUser?.photoURL as String
-                      : "https://codeforces.org/s/95132/images/codeforces-sponsored-by-ton.png"),
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 50,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
                 Text(FirebaseAuth.instance.currentUser?.displayName != null
                     ? FirebaseAuth.instance.currentUser?.displayName as String
                     : "No Name"),

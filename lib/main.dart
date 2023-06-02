@@ -1,4 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:my_codeforces_app/constants.dart';
 import 'package:my_codeforces_app/screens/home_screen.dart';
@@ -16,6 +17,13 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    final auth = FirebaseAuth.instance;
+    bool isLoggedIn;
+    if (auth.currentUser != null) {
+      isLoggedIn = true;
+    } else {
+      isLoggedIn = false;
+    }
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
@@ -23,12 +31,11 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       debugShowCheckedModeBanner: false,
-      home: const RegisterScreen(),
+      home: isLoggedIn ? const HomeScreen() : const RegisterScreen(),
       routes: {
-        homeScreen : (context) => const HomeScreen(),
-        registerScreen : (context) => const RegisterScreen(),
+        homeScreen: (context) => const HomeScreen(),
+        registerScreen: (context) => const RegisterScreen(),
       },
     );
   }
 }
-

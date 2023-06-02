@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_codeforces_app/constants.dart';
 import 'package:my_codeforces_app/services/firebase_services.dart';
+import 'package:my_codeforces_app/services/firestore_services.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -45,46 +46,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ],
             ),
             SizedBox(
-              height: screenHeight / 15,
-            ),
-            SizedBox(
-              width: screenWidth/1.2,
-              child: TextFormField(
-                controller: _emailController,
-                decoration: const InputDecoration(
-                  hintText: "Email",
-                ),
-              ),
-            ),
-            SizedBox(
-              height: screenHeight / 30,
-            ),
-            SizedBox(
-              width: screenWidth/1.2,
-              child: TextFormField(
-                controller: _passwordController,
-                decoration: const InputDecoration(
-                  hintText: "Password", //91abc52d
-                ),
-              ),
-            ),
-            SizedBox(
-              height: screenHeight / 15,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                TextButton(
-                  onPressed: () async {
-                    bool isSignedUp = await FirebaseServices().signUpWithEmail(_emailController.text, _passwordController.text);
-                    if(isSignedUp) Navigator.pushReplacementNamed(context, homeScreen);
-                    else print("Some error, please try again");
-                  },
-                  child: Text("Sign Up with Email"),
-                ),
-              ],
-            ),
-            SizedBox(
               height: screenHeight / 30,
             ),
             Row(
@@ -93,7 +54,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 TextButton(
                   onPressed: () async {
                     bool isSignedUp = await FirebaseServices().signInWithGoogle();
-                    if(isSignedUp) Navigator.pushReplacementNamed(context, homeScreen);
+                    if(isSignedUp) {
+                      await FireStoreServices().createUser();
+                      Navigator.pushReplacementNamed(context, homeScreen);
+                    }
                     else print("Some error, please try again");
                   },
                   child: Text("Sign In"),

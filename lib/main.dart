@@ -2,6 +2,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:my_codeforces_app/constants.dart';
+import 'package:my_codeforces_app/screens/add_friend.dart';
+import 'package:my_codeforces_app/screens/add_keys.dart';
 import 'package:my_codeforces_app/screens/home_screen.dart';
 import 'package:my_codeforces_app/screens/register_screen.dart';
 
@@ -35,6 +37,8 @@ class MyApp extends StatelessWidget {
       routes: {
         homeScreen: (context) => const HomeScreen(),
         registerScreen: (context) => const RegisterScreen(),
+        addFriendScreen: (context) => const AddFriend(),
+        addKeyScreen: (context) => const AddKeys(),
       },
     );
   }

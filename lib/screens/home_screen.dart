@@ -13,6 +13,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
@@ -42,6 +43,15 @@ class _HomeScreenState extends State<HomeScreen> {
                     ? FirebaseAuth.instance.currentUser?.displayName as String
                     : "No Name"),
               ],
+            ),
+            SizedBox(
+              height: screenHeight / 20,
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pushNamed(context, addFriendScreen);
+              },
+              child: Text("Add Friend"),
             ),
           ],
         ),

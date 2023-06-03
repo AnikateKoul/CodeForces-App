@@ -18,4 +18,11 @@ class FireStoreServices {
       print('Document data:');
     }
   }
+
+  addKey(String apiKey, String secret) async {
+    await db.collection("Keys").doc(user.email).set({
+      "apiKey": apiKey,
+      "secret": secret,
+    });
+  }
 }

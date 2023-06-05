@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:my_codeforces_app/constants.dart';
 import 'package:my_codeforces_app/services/firebase_services.dart';
 import 'package:my_codeforces_app/services/firestore_services.dart';
+import 'package:simple_icons/simple_icons.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -33,9 +34,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                   child: const Text(
                     "Welcome to Codeforces App",
+                    textAlign: TextAlign.center,
                     style: TextStyle(
                       fontFamily: 'Source Sans Pro',
-                      fontSize: 30,
+                      fontSize: 50,
                       fontWeight: FontWeight.w500,
                       color: Colors.black,
                     ),
@@ -44,21 +46,38 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ],
             ),
             SizedBox(
-              height: screenHeight / 30,
+              height: screenHeight / 4,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                TextButton(
+                TextButton.icon(
                   onPressed: () async {
-                    bool isSignedUp = await FirebaseServices().signInWithGoogle();
-                    if(isSignedUp) {
+                    bool isSignedUp =
+                        await FirebaseServices().signInWithGoogle();
+                    if (isSignedUp) {
                       await FireStoreServices().createUser();
                       Navigator.pushReplacementNamed(context, homeScreen);
-                    }
-                    else print("Some error, please try again");
+                    } else
+                      print("Some error, please try again");
                   },
-                  child: Text("Sign In"),
+                  style: ButtonStyle(
+                      iconColor: MaterialStateProperty.all<Color>(kblue),
+                      backgroundColor: MaterialStateProperty.all<Color>(
+                          const Color.fromARGB(26, 228, 209, 209))),
+                  icon: const Icon(SimpleIcons.google),
+                  label: const Padding(
+                    padding: EdgeInsets.only(left: 10),
+                    child: Text(
+                      "Sign In With Google",
+                      style: TextStyle(
+                        fontFamily: 'Source Sans Pro',
+                        fontSize: 20,
+                        fontWeight: FontWeight.w500,
+                        color: kred,
+                      ),
+                    ),
+                  ),
                 ),
               ],
             ),

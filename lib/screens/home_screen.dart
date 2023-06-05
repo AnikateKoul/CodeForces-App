@@ -19,15 +19,78 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: Text("Codeforces App"),
         centerTitle: true,
-        actions: [
-          TextButton(
-            onPressed: () async {
-              await FirebaseServices().signOut();
-              Navigator.pushReplacementNamed(context, registerScreen);
-            },
-            child: Text("Sign Out"),
-          ),
-        ],
+      ),
+      drawer: Drawer(
+        backgroundColor: kred,
+        // surfaceTintColor: Colors.white,
+        child: ListView(
+          padding: EdgeInsets.symmetric(
+              horizontal: screenWidth / 50, vertical: screenHeight / 80),
+          children: [
+            DrawerHeader(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(screenHeight / 10),
+                        child: Image.network(
+                          FirebaseAuth.instance.currentUser?.photoURL as String,
+                          fit: BoxFit.fill,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        FirebaseAuth.instance.currentUser?.displayName
+                            as String,
+                        style: const TextStyle(
+                          color: kwhite,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            const ListTile(
+              leading: Icon(
+                Icons.account_box_outlined,
+                color: kwhite,
+              ),
+              title: Text(
+                "Codeforces Profile",
+                style: TextStyle(
+                  color: kwhite,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+            ListTile(
+              leading: const Icon(
+                Icons.exit_to_app,
+                color: kwhite,
+              ),
+              title: const Text(
+                "Sign Out",
+                style: TextStyle(
+                  color: kwhite,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              onTap: () async {
+                await FirebaseServices().signOut();
+                Navigator.pushReplacementNamed(context, registerScreen);
+              },
+            ),
+          ],
+        ),
       ),
       body: Container(
         color: Colors.white,

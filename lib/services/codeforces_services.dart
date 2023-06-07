@@ -1,6 +1,7 @@
 import 'package:http/http.dart' as http;
 import 'package:crypto/crypto.dart';
 import 'dart:convert'; 
+import '../templates/user.dart';
 
 class CodeforcesServices {
   String? apiKey;
@@ -26,6 +27,28 @@ class CodeforcesServices {
     }
     else {
       return false;
+    }
+  }
+
+  Future<User> userInfo(String username) async {
+    final url = "https://codeforces.com/api/user.info?handles=$username";
+    http.Response response;
+    response = await http.get(Uri.parse(url));
+    print(response);
+    User user = User("", -1, "", 0, "", 0, "", 0);
+    if(response.statusCode == 200) {
+      var body = jsonDecode(response.body);
+      if(body["status"] == "OK") {
+        var data = body["result"];
+        var tempData = data.map((myData) => User.fromJson(myData)).toList();
+        return tempData[0];
+      }
+      else {
+        return user;
+      }
+    }
+    else {
+      return user;
     }
   }
 }

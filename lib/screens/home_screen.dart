@@ -59,19 +59,24 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
             ),
-            const ListTile(
-              leading: Icon(
+            //! CodeForces Profile
+            ListTile(
+              leading: const Icon(
                 Icons.account_box_outlined,
                 color: kwhite,
               ),
-              title: Text(
+              title: const Text(
                 "Codeforces Profile",
                 style: TextStyle(
                   color: kwhite,
                   fontWeight: FontWeight.w500,
                 ),
               ),
+              onTap: () {
+                Navigator.pushNamed(context, profileScreen);
+              },
             ),
+            //! Sign Out
             ListTile(
               leading: const Icon(
                 Icons.exit_to_app,

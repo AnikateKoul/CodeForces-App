@@ -7,6 +7,7 @@ import 'package:my_codeforces_app/screens/add_keys.dart';
 import 'package:my_codeforces_app/screens/home_screen.dart';
 import 'package:my_codeforces_app/screens/register_screen.dart';
 import 'package:my_codeforces_app/screens/profile_screen.dart';
+import 'package:my_codeforces_app/screens/search_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -41,6 +42,7 @@ class MyApp extends StatelessWidget {
         addFriendScreen: (context) => const AddFriend(),
         addKeyScreen: (context) => const AddKeys(),
         profileScreen: (context) => const ProfileScreen(),
+        searchScreen: (context) => const SearchUser(),
       },
     );
   }

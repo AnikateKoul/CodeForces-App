@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../constants.dart';
 
+//! Text Styles
 TextStyle style1(
     {double fontSize = 20.0,
     String fontFamily = 'Source Sans Pro',
@@ -11,6 +12,15 @@ TextStyle style1(
     fontFamily: fontFamily,
     fontWeight: fontWeight,
     color: color,
+  );
+}
+
+TextStyle style2(
+    {Color color = kwhite, 
+    FontWeight fontWeight = FontWeight.w500}) {
+  return TextStyle(
+    color: color,
+    fontWeight: fontWeight,
   );
 }
 
@@ -37,13 +47,11 @@ Color userColor(int rating) {
 
 //! function to give color according to contribution
 Color contributionColor(int contribution) {
-  if(contribution < 0) {
+  if (contribution < 0) {
     return kgm;
-  }
-  else if(contribution == 0) {
+  } else if (contribution == 0) {
     return knewbie;
-  }
-  else {
+  } else {
     return kpupil;
   }
 }

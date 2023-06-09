@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:my_codeforces_app/constants.dart';
 import 'package:my_codeforces_app/services/firebase_services.dart';
+import '../styles/text_styles.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -17,9 +18,10 @@ class _HomeScreenState extends State<HomeScreen> {
     final screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
-        title: Text("Codeforces App"),
+        title: const Text("Codeforces App"),
         centerTitle: true,
       ),
+      //! Navigation Drawer
       drawer: Drawer(
         backgroundColor: kred,
         // surfaceTintColor: Colors.white,
@@ -49,10 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       Text(
                         FirebaseAuth.instance.currentUser?.displayName
                             as String,
-                        style: const TextStyle(
-                          color: kwhite,
-                          fontWeight: FontWeight.w500,
-                        ),
+                        style: style2(),
                       ),
                     ],
                   ),
@@ -65,15 +64,26 @@ class _HomeScreenState extends State<HomeScreen> {
                 Icons.account_box_outlined,
                 color: kwhite,
               ),
-              title: const Text(
+              title: Text(
                 "Codeforces Profile",
-                style: TextStyle(
-                  color: kwhite,
-                  fontWeight: FontWeight.w500,
-                ),
+                style: style2(),
               ),
               onTap: () {
                 Navigator.pushNamed(context, profileScreen);
+              },
+            ),
+            //! Search User
+            ListTile(
+              leading: const Icon(
+                Icons.search,
+                color: kwhite,
+              ),
+              title: Text(
+                "Search User",
+                style: style2(),
+              ),
+              onTap: () {
+                Navigator.pushNamed(context, searchScreen);
               },
             ),
             //! Sign Out
@@ -82,12 +92,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 Icons.exit_to_app,
                 color: kwhite,
               ),
-              title: const Text(
+              title: Text(
                 "Sign Out",
-                style: TextStyle(
-                  color: kwhite,
-                  fontWeight: FontWeight.w500,
-                ),
+                style: style2(),
               ),
               onTap: () async {
                 await FirebaseServices().signOut();

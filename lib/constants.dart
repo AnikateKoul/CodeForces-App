@@ -6,6 +6,7 @@ const String registerScreen = "/registerScreen";
 const String addFriendScreen = "/addFriendScreen";
 const String addKeyScreen = "/addKeyScreen";
 const String profileScreen = "/profileScreen";
+const String searchScreen = "/searchScreen";
 
 //! Colours for theme
 const kblue = Color.fromARGB(255, 19, 127, 195);

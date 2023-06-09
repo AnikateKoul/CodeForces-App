@@ -34,8 +34,7 @@ class CodeforcesServices {
     final url = "https://codeforces.com/api/user.info?handles=$username";
     http.Response response;
     response = await http.get(Uri.parse(url));
-    print(response);
-    User user = User("", -1, "", 0, "", 0, "", 0);
+    User user = User(handle: "//", contribution: 0, titlePhoto: "//", friendOfCount: 0);
     if(response.statusCode == 200) {
       var body = jsonDecode(response.body);
       if(body["status"] == "OK") {

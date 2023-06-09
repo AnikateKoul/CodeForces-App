@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_codeforces_app/constants.dart';
+import 'package:my_codeforces_app/styles/text_styles.dart';
 import '../templates/user.dart';
 import '../services/codeforces_services.dart';
 
@@ -11,26 +12,6 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  Color userColor(int rating) {
-    if (rating == 0) {
-      return Colors.black;
-    } else if (rating < 1200) {
-      return const Color.fromRGBO(129, 128, 129, 1);
-    } else if (rating < 1400) {
-      return const Color.fromRGBO(0, 120, 0, 1);
-    } else if (rating < 1600) {
-      return const Color.fromRGBO(3, 168, 183, 1);
-    } else if (rating < 1900) {
-      return const Color.fromRGBO(0, 0, 255, 1);
-    } else if (rating < 2100) {
-      return const Color.fromRGBO(171, 1, 170, 1);
-    } else if (rating < 2400) {
-      return const Color.fromRGBO(255, 165, 0, 1);
-    } else {
-      return const Color.fromRGBO(255, 0, 0, 1);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
@@ -44,14 +25,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
       body: Container(
         color: kwhite,
         child: FutureBuilder<User>(
-            future: CodeforcesServices().userInfo("raowl"),
+            //! enter user profile here ->
+            future: CodeforcesServices().userInfo("awoo"),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
+                int rating = snapshot.data!.rating;
                 return Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     SizedBox(
                       height: screenHeight / 12,
                     ),
+                    //! User profile image
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -68,32 +53,189 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     SizedBox(
                       height: screenHeight / 30,
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.min,
+                    //! User Information
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Text(
-                          snapshot.data!.handle,
-                          style: TextStyle(
-                            fontFamily: 'Source Sans Pro',
-                            fontWeight: snapshot.data!.rating == 0 ? FontWeight.w500 : FontWeight.w800,
-                            fontSize: 20,
-                            color: userColor(snapshot.data!.rating),
-                          ),
-                        ),
-                        SizedBox(
-                          width: screenWidth / 30,
-                        ),
-                        Text(
-                          "${snapshot.data!.rating}",
-                          style: TextStyle(
-                            fontFamily: 'Source Sans Pro',
-                            fontWeight: snapshot.data!.rating == 0 ? FontWeight.w500 : FontWeight.w800,
-                            fontSize: 20,
-                            color: userColor(snapshot.data!.rating),
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: screenWidth / 10),
+                          child: Table(
+                            columnWidths: const {
+                              0: FlexColumnWidth(10),
+                              1: FlexColumnWidth(1),
+                              2: FlexColumnWidth(10),
+                            },
+                            children: [
+                              //! Username
+                              TableRow(
+                                children: [
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      Text(
+                                        "Username : ",
+                                        style: style1(),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    width: screenWidth / 30,
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        snapshot.data!.handle,
+                                        style: style1(
+                                          fontWeight: rating == 0
+                                              ? FontWeight.w500
+                                              : FontWeight.w800,
+                                          color: userColor(rating),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                              //! User Rating
+                              TableRow(
+                                children: [
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      Text(
+                                        "Rating : ",
+                                        style: style1(),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    width: screenWidth / 30,
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "$rating",
+                                        style: style1(
+                                          fontWeight: rating == 0
+                                              ? FontWeight.w500
+                                              : FontWeight.w800,
+                                          color: userColor(rating),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                              //! User Rank
+                              TableRow(
+                                children: [
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      Text(
+                                        "Rank : ",
+                                        style: style1(),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    width: screenWidth / 30,
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        snapshot.data!.rank,
+                                        style: style1(
+                                          fontWeight: rating == 0
+                                              ? FontWeight.w500
+                                              : FontWeight.w800,
+                                          color: userColor(rating),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                              //! User Contribution
+                              TableRow(
+                                children: [
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      Text(
+                                        "Contribution : ",
+                                        style: style1(),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    width: screenWidth / 30,
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "${snapshot.data!.contribution}",
+                                        style: style1(
+                                          fontWeight: rating == 0
+                                              ? FontWeight.w500
+                                              : FontWeight.w800,
+                                          color: contributionColor(
+                                              snapshot.data!.contribution),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                              //! User max rating
+                              TableRow(
+                                children: [
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      Text(
+                                        "Max rating : ",
+                                        style: style1(),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    width: screenWidth / 30,
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "${snapshot.data!.maxRating} (${snapshot.data!.maxRank})",
+                                        style: style1(
+                                          fontWeight: rating == 0
+                                              ? FontWeight.w500
+                                              : FontWeight.w800,
+                                          color: userColor(
+                                              snapshot.data!.maxRating),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
                         ),
                       ],
+                    ),
+                    SizedBox(
+                      height: screenHeight / 10,
                     ),
                   ],
                 );

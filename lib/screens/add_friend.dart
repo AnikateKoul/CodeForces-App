@@ -12,10 +12,10 @@ class _AddFriendState extends State<AddFriend> {
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
-    final screenWidth = MediaQuery.of(context).size.width;
+    //! final screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
-        title: Text("Add Friends"),
+        title: const Text("Add Friends"),
         centerTitle: true,
       ),
       body: Container(
@@ -30,7 +30,7 @@ class _AddFriendState extends State<AddFriend> {
               children: [
                 TextButton(
                   onPressed: () {},
-                  child: Text("Search Manually"),
+                  child: const Text("Search Manually"),
                 ),
               ],
             ),
@@ -44,7 +44,7 @@ class _AddFriendState extends State<AddFriend> {
                   onPressed: () {
                     Navigator.pushNamed(context, addKeyScreen);
                   },
-                  child: Text("Import from Codeforces"),
+                  child: const Text("Import from Codeforces"),
                 ),
               ],
             ),

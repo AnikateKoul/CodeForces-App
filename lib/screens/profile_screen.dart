@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_codeforces_app/constants.dart';
 import 'package:my_codeforces_app/styles/text_styles.dart';
-import '../templates/user.dart';
 import '../services/codeforces_services.dart';
 
 class ProfileScreen extends StatefulWidget {

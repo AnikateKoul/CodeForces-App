@@ -5,6 +5,7 @@ import 'package:my_codeforces_app/constants.dart';
 import 'package:my_codeforces_app/screens/add_friend.dart';
 import 'package:my_codeforces_app/screens/add_keys.dart';
 import 'package:my_codeforces_app/screens/home_screen.dart';
+import 'package:my_codeforces_app/screens/my_friends.dart';
 import 'package:my_codeforces_app/screens/register_screen.dart';
 import 'package:my_codeforces_app/screens/profile_screen.dart';
 import 'package:my_codeforces_app/screens/search_screen.dart';
@@ -43,6 +44,7 @@ class MyApp extends StatelessWidget {
         addKeyScreen: (context) => const AddKeys(),
         profileScreen: (context) => const ProfileScreen(),
         searchScreen: (context) => const SearchUser(),
+        myFriends: (context) => const MyFriends(),
       },
     );
   }

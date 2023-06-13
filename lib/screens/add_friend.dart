@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_codeforces_app/constants.dart';
+import '../services/codeforces_services.dart';
+import '../services/firestore_services.dart';
 
 class AddFriend extends StatefulWidget {
   const AddFriend({super.key});
@@ -41,8 +43,18 @@ class _AddFriendState extends State<AddFriend> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 TextButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, addKeyScreen);
+                  onPressed: () async {
+                    var details = await FireStoreServices().keyAndSecret();
+                    // print(details);
+                    bool b = await CodeforcesServices().checkKey1(details[0], details[1]);
+                    if(!b) {
+                      Navigator.pushNamed(context, addKeyScreen);
+                    }
+                    else {
+                      await FireStoreServices().addFriends(details[0], details[1]);
+                      print("Friends Added");
+                    }
+                    
                   },
                   child: const Text("Import from Codeforces"),
                 ),

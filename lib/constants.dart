@@ -8,6 +8,7 @@ const String addKeyScreen = "/addKeyScreen";
 const String profileScreen = "/profileScreen";
 const String searchScreen = "/searchScreen";
 const String myFriends = "/myFriends";
+const String friendSubmissions = "/friendSubmissions";
 
 //! Colours for theme
 const kblue = Color.fromARGB(255, 19, 127, 195);

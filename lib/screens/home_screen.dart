@@ -100,6 +100,20 @@ class _HomeScreenState extends State<HomeScreen> {
                 Navigator.pushNamed(context, myFriends);
               },
             ),
+            //! My Submissions
+            ListTile(
+              leading: const Icon(
+                Icons.list,
+                color: kwhite,
+              ),
+              title: Text(
+                "My Submissions",
+                style: style2(),
+              ),
+              onTap: () {
+                Navigator.pushNamed(context, friendSubmissions);
+              },
+            ),
             //! Sign Out
             ListTile(
               leading: const Icon(

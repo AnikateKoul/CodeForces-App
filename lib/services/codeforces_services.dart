@@ -1,7 +1,10 @@
 import 'package:http/http.dart' as http;
 import 'package:crypto/crypto.dart';
+import 'package:my_codeforces_app/services/firestore_services.dart';
+import 'package:my_codeforces_app/templates/problem.dart';
 import 'dart:convert'; 
 import '../templates/user.dart';
+import '../templates/submission.dart';
 
 class CodeforcesServices {
   String? apiKey;
@@ -93,6 +96,29 @@ class CodeforcesServices {
     }
     else {
       return [];
+    }
+  }
+
+  Future<List<dynamic>> userSubmissions(String username) async {
+    final url = "https://codeforces.com/api/user.status?handle=$username&from=1&count=100";
+    http.Response response = await http.get(Uri.parse(url));
+    Problem problem = Problem(name: "No name");
+    Submission submission = Submission(id: 0, problem: problem, programmingLanguage: "Unknown");
+    List<Submission> list = [submission];
+    if(response.statusCode == 200) {
+      var body = jsonDecode(response.body);
+      if(body["status"] == "OK") {
+        var data = body["result"];
+        var tempData = data.map((myData) => Submission.fromJson(myData)).toList();
+        // print("The data is : $tempData");
+        return tempData;
+      }
+      else {
+        return list;
+      }
+    }
+    else {
+      return list;
     }
   }
 }

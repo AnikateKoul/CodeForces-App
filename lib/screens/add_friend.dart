@@ -31,7 +31,9 @@ class _AddFriendState extends State<AddFriend> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushNamed(context, searchScreen);
+                  },
                   child: const Text("Search Manually"),
                 ),
               ],

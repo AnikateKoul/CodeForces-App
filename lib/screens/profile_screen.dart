@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:my_codeforces_app/constants.dart';
+import 'package:my_codeforces_app/services/firestore_services.dart';
+import 'package:my_codeforces_app/styles/button_styles.dart';
 import 'package:my_codeforces_app/styles/text_styles.dart';
 import '../services/codeforces_services.dart';
+import '../templates/user.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -11,6 +14,46 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  var myFriends = [];
+  Future<User> fun(Object? args) async {
+    myFriends = await FireStoreServices().friendList();
+    return CodeforcesServices()
+        .userInfo(args != null ? args as String : "AnikateKoul");
+  }
+
+  Widget friendButton(String username) {
+    // print(myFriends);
+    if (myFriends.contains(username)) {
+      return TextButton(
+        onPressed: () async {
+          await FireStoreServices().removeFriend(username);
+          setState(() {
+            myFriends.remove(username);
+          });
+        },
+        style: bstyle1(),
+        child: Text(
+          "Remove Friend",
+          style: style1(color: kwhite),
+        ),
+      );
+    } else {
+      return TextButton(
+        onPressed: () async {
+          await FireStoreServices().addFriend(username);
+          setState(() {
+            myFriends.add(username);
+          });
+        },
+        style: bstyle1(),
+        child: Text(
+          "Add Friend",
+          style: style1(color: kwhite),
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final args = ModalRoute.of(context)!.settings.arguments;
@@ -26,11 +69,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
         color: kwhite,
         child: FutureBuilder(
             //! enter user profile here ->
-            future: CodeforcesServices()
-                .userInfo(args != null ? args as String : "AnikateKoul"),
+            future: fun(args),
             builder: (context, snapshot) {
               // print(snapshot);
-              if (snapshot.hasData) {            
+              if (snapshot.hasData) {
                 if (snapshot.data!.handle == "//") {
                   // Navigator.pop(context);
                   return Column(
@@ -79,10 +121,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ],
                   );
                 } else {
-                  int rating = snapshot.data!.rating == null ? 0 : snapshot.data!.rating as int;
-                  int maxRating = snapshot.data!.maxRating == null ? 0 : snapshot.data!.maxRating as int;
-                  String rank = snapshot.data!.rank == null ? "Unrated" : snapshot.data!.rank as String;
-                  String maxRank = snapshot.data!.maxRank == null ? "Unrated" : snapshot.data!.maxRank as String;
+                  int rating = snapshot.data!.rating == null
+                      ? 0
+                      : snapshot.data!.rating as int;
+                  int maxRating = snapshot.data!.maxRating == null
+                      ? 0
+                      : snapshot.data!.maxRating as int;
+                  String rank = snapshot.data!.rank == null
+                      ? "Unrated"
+                      : snapshot.data!.rank as String;
+                  String maxRank = snapshot.data!.maxRank == null
+                      ? "Unrated"
+                      : snapshot.data!.maxRank as String;
                   // print("rating = $rating");
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -280,8 +330,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             fontWeight: rating == 0
                                                 ? FontWeight.w500
                                                 : FontWeight.w800,
-                                            color: userColor(
-                                                maxRating),
+                                            color: userColor(maxRating),
                                           ),
                                         ),
                                       ],
@@ -296,6 +345,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       SizedBox(
                         height: screenHeight / 10,
                       ),
+                      //! Add or remove Friend
+                      friendButton(snapshot.data!.handle),
                     ],
                   );
                 }

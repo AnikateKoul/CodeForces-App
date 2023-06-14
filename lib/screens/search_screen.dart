@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_codeforces_app/constants.dart';
+import 'package:my_codeforces_app/styles/button_styles.dart';
 import 'package:my_codeforces_app/styles/text_styles.dart';
 
 class SearchUser extends StatefulWidget {
@@ -56,12 +57,7 @@ class _SearchUserState extends State<SearchUser> {
                     Navigator.pushNamed(context, profileScreen,
                         arguments: userController.text);
                   },
-                  style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all<Color?>(kred),
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(50),
-                      ))),
+                  style: bstyle1(),
                   child: Text(
                     "Search",
                     style: style1(color: kwhite),

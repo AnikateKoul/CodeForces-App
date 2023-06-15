@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:my_codeforces_app/constants.dart';
+import 'package:my_codeforces_app/styles/text_styles.dart';
 import '../services/firestore_services.dart';
-import '../styles/list_tiles.dart';
 
 class MyFriends extends StatefulWidget {
   const MyFriends({super.key});
@@ -14,16 +15,22 @@ class _MyFriendsState extends State<MyFriends> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("My Friends"),
+        title: Text("My Friends", style: style1(),),
         centerTitle: true,
       ),
       body: Container(
+        color: kwhite,
         child: FutureBuilder(
           future: FireStoreServices().friendList(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               return ListView.builder(itemBuilder: (context, index) {
-                return tile1(snapshot.data![index], context);
+                return ListTile(
+                  title: Text(snapshot.data![index], style: style1(),),
+                  onTap: () {
+                    Navigator.pushNamed(context, profileScreen, arguments: snapshot.data![index]).then((value) => setState(() {}));
+                  },
+                );
               }, itemCount: snapshot.data!.length,);
             } else {
               return const Center(
@@ -31,6 +38,7 @@ class _MyFriendsState extends State<MyFriends> {
               );
             }
           },
+          // tile1(snapshot.data![index], context);
         ),
       ),
     );

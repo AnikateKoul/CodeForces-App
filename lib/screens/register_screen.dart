@@ -58,8 +58,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     if (isSignedUp) {
                       await FireStoreServices().createUser();
                       Navigator.pushReplacementNamed(context, homeScreen);
-                    } else
+                    } else {
                       print("Some error, please try again");
+
+                    }
                   },
                   style: ButtonStyle(
                       iconColor: MaterialStateProperty.all<Color>(kblue),

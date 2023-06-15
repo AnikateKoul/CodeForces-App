@@ -40,7 +40,7 @@ class _AddKeysState extends State<AddKeys> {
                   throw Exception('Could not launch $url');
                 }
               },
-              child: Text("Open Link"),
+              child: const Text("Open Link"),
             ),
             SizedBox(
               height: screenHeight / 10,
@@ -76,7 +76,7 @@ class _AddKeysState extends State<AddKeys> {
                bool b = await CodeforcesServices(apiKey: _apiKey.text, secret: _secret.text).checkKey();
                print(b);
               },
-              child: Text("Add key"),
+              child: const Text("Add key"),
             ),
           ],
         ),

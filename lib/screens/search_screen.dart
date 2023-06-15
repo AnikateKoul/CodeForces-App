@@ -22,6 +22,7 @@ class _SearchUserState extends State<SearchUser> {
         centerTitle: true,
       ),
       body: Container(
+        color: kwhite,
         child: Column(
           children: [
             SizedBox(

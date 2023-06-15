@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_codeforces_app/styles/text_styles.dart';
 import '../services/codeforces_services.dart';
-import '../templates/submission.dart';
 import '../styles/list_tiles.dart';
 
 class UserSubmissionScreen extends StatefulWidget {
@@ -14,8 +13,8 @@ class UserSubmissionScreen extends StatefulWidget {
 class _UserSubmissionScreenState extends State<UserSubmissionScreen> {
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    final screenHeight = MediaQuery.of(context).size.height;
+    //! final screenWidth = MediaQuery.of(context).size.width;
+    //! final screenHeight = MediaQuery.of(context).size.height;
     final args = ModalRoute.of(context)!.settings.arguments;
     final username = args ?? "AnikateKoul";
     final title = args == null ? "My Submissions" : "$args's Submissions";

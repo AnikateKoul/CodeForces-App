@@ -154,7 +154,7 @@ class _HomeScreenState extends State<HomeScreen> {
               onPressed: () {
                 Navigator.pushNamed(context, addFriendScreen);
               },
-              child: Text("Add Friend"),
+              child: const Text("Add Friend"),
             ),
           ],
         ),

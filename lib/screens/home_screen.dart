@@ -89,7 +89,7 @@ class _HomeScreenState extends State<HomeScreen> {
             //! My Friends
             ListTile(
               leading: const Icon(
-                Icons.list,
+                Icons.person_add_alt_1,
                 color: kwhite,
               ),
               title: Text(

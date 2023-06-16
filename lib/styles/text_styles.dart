@@ -55,3 +55,16 @@ Color contributionColor(int contribution) {
     return kpupil;
   }
 }
+
+//! function to give color 
+Color contestColor(String phase) {
+  if(phase == "BEFORE") {
+    return kpupil;
+  }
+  else if(phase == "CODING") {
+    return kexpert;
+  }
+  else {
+    return kgm;
+  }
+}

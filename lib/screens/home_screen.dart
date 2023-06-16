@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:my_codeforces_app/constants.dart';
+import 'package:my_codeforces_app/screens/contest_info_screen.dart';
 import 'package:my_codeforces_app/services/firebase_services.dart';
 import '../styles/text_styles.dart';
 
@@ -18,7 +19,10 @@ class _HomeScreenState extends State<HomeScreen> {
     final screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Codeforces App"),
+        title: Text(
+          "Upcoming/Recent Contests",
+          style: style1(),
+        ),
         centerTitle: true,
       ),
       //! Navigation Drawer
@@ -114,6 +118,20 @@ class _HomeScreenState extends State<HomeScreen> {
                 Navigator.pushNamed(context, friendSubmissions);
               },
             ),
+            //! Add Friends
+            ListTile(
+              leading: const Icon(
+                Icons.person_add_alt_1,
+                color: kwhite,
+              ),
+              title: Text(
+                "Add Friends",
+                style: style2(),
+              ),
+              onTap: () {
+                Navigator.pushNamed(context, addFriendScreen);
+              },
+            ),
             //! Sign Out
             ListTile(
               leading: const Icon(
@@ -132,33 +150,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
       ),
-      body: Container(
-        color: Colors.white,
-        child: Column(
-          children: [
-            const SizedBox(
-              height: 200,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(FirebaseAuth.instance.currentUser?.displayName != null
-                    ? FirebaseAuth.instance.currentUser?.displayName as String
-                    : "No Name"),
-              ],
-            ),
-            SizedBox(
-              height: screenHeight / 20,
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.pushNamed(context, addFriendScreen);
-              },
-              child: const Text("Add Friend"),
-            ),
-          ],
-        ),
-      ),
+      body: const ContestInfoScreen(),
     );
   }
 }

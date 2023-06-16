@@ -20,7 +20,10 @@ class _UserSubmissionScreenState extends State<UserSubmissionScreen> {
     final title = args == null ? "My Submissions" : "$args's Submissions";
     return Scaffold(
       appBar: AppBar(
-        title: Text(title, style: style1(fontSize: 22),),
+        title: Text(
+          title,
+          style: style1(fontSize: 22),
+        ),
         centerTitle: true,
       ),
       body: SizedBox(
@@ -40,9 +43,10 @@ class _UserSubmissionScreenState extends State<UserSubmissionScreen> {
                   return ListView.builder(
                     itemBuilder: (context, index) {
                       // print(snapshot.data![index].verdict);
-                      return tile2(snapshot.data![index].problem.name,
-                          rating: snapshot.data![index].problem.rating,
-                          verdict: snapshot.data![index].verdict);
+                      return tile2(
+                          name: snapshot.data![index].problem.name,
+                          rating: snapshot.data![index].problem.rating ?? 0,
+                          verdict: snapshot.data![index].verdict ?? "Unknown");
                     },
                     itemCount: snapshot.data!.length,
                   );

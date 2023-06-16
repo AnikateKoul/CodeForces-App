@@ -43,6 +43,7 @@ dependencies:
   http: ^0.13.5
   crypto: ^3.0.3
   simple_icons: ^7.10.0
+  intl: ^0.18.1
 
 dev_dependencies:
   flutter_test:

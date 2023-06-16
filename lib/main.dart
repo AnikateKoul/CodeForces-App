@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:my_codeforces_app/constants.dart';
 import 'package:my_codeforces_app/screens/add_friend.dart';
 import 'package:my_codeforces_app/screens/add_keys.dart';
+import 'package:my_codeforces_app/screens/contest_info_screen.dart';
 import 'package:my_codeforces_app/screens/user_submissions.dart';
 import 'package:my_codeforces_app/screens/home_screen.dart';
 import 'package:my_codeforces_app/screens/my_friends.dart';
@@ -47,6 +48,7 @@ class MyApp extends StatelessWidget {
         searchScreen: (context) => const SearchUser(),
         myFriends: (context) => const MyFriends(),
         friendSubmissions: (context) => const UserSubmissionScreen(),
+        contestInfo: (context) => const ContestInfoScreen(),
       },
     );
   }

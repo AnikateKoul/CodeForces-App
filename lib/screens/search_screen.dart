@@ -23,50 +23,53 @@ class _SearchUserState extends State<SearchUser> {
       ),
       body: Container(
         color: kwhite,
-        child: Column(
-          children: [
-            SizedBox(
-              height: screenHeight / 6,
-            ),
-            Center(
-              child: SizedBox(
-                width: screenWidth / 1.1,
-                // height: screenHeight/15,
-                child: TextFormField(
-                  controller: userController,
-                  decoration: InputDecoration(
-                    contentPadding:
-                        const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
-                    hintText: "Enter user CodeForces ID",
-                    suffix: IconButton(
-                        onPressed: () {
-                          userController.text = "";
-                        },
-                        icon: const Icon(Icons.clear)),
+        height: screenHeight,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              SizedBox(
+                height: screenHeight / 6,
+              ),
+              Center(
+                child: SizedBox(
+                  width: screenWidth / 1.1,
+                  // height: screenHeight/15,
+                  child: TextFormField(
+                    controller: userController,
+                    decoration: InputDecoration(
+                      contentPadding:
+                          const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+                      hintText: "Enter user CodeForces ID",
+                      suffix: IconButton(
+                          onPressed: () {
+                            userController.text = "";
+                          },
+                          icon: const Icon(Icons.clear)),
+                    ),
                   ),
                 ),
               ),
-            ),
-            SizedBox(
-              height: screenHeight / 7,
-            ),
-            Center(
-              child: SizedBox(
-                width: screenWidth / 2.5,
-                child: TextButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, profileScreen,
-                        arguments: userController.text);
-                  },
-                  style: bstyle1(),
-                  child: Text(
-                    "Search",
-                    style: style1(color: kwhite),
+              SizedBox(
+                height: screenHeight / 7,
+              ),
+              Center(
+                child: SizedBox(
+                  width: screenWidth / 2.5,
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, profileScreen,
+                          arguments: userController.text);
+                    },
+                    style: bstyle1(),
+                    child: Text(
+                      "Search",
+                      style: style1(color: kwhite),
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

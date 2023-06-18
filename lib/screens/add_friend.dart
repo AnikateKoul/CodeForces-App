@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:my_codeforces_app/constants.dart';
+import 'package:my_codeforces_app/styles/button_styles.dart';
+import 'package:my_codeforces_app/styles/text_styles.dart';
 import '../services/codeforces_services.dart';
 import '../services/firestore_services.dart';
+import 'package:my_codeforces_app/styles/snackbars.dart';
 
 class AddFriend extends StatefulWidget {
   const AddFriend({super.key});
@@ -34,9 +37,20 @@ class _AddFriendState extends State<AddFriend> {
                   onPressed: () {
                     Navigator.pushNamed(context, searchScreen);
                   },
-                  child: const Text("Search Manually"),
+                  style: bstyle1(),
+                  child: Text(
+                    "Search Manually",
+                    style: style1(color: kwhite),
+                  ),
                 ),
               ],
+            ),
+            SizedBox(
+              height: screenHeight / 20,
+            ),
+            Text(
+              "OR",
+              style: style1(fontSize: 30),
             ),
             SizedBox(
               height: screenHeight / 20,
@@ -48,17 +62,22 @@ class _AddFriendState extends State<AddFriend> {
                   onPressed: () async {
                     var details = await FireStoreServices().keyAndSecret();
                     // print(details);
-                    bool b = await CodeforcesServices().checkKey1(details[0], details[1]);
-                    if(!b) {
+                    bool b = await CodeforcesServices()
+                        .checkKey1(details[0], details[1]);
+                    if (!b) {
                       Navigator.pushNamed(context, addKeyScreen);
+                    } else {
+                      await FireStoreServices()
+                          .addFriends(details[0], details[1]);
+                      ScaffoldMessenger.of(context).showSnackBar(makeSnackBar(
+                          text: "Friends synchronized successfully!", color: kblue));
                     }
-                    else {
-                      await FireStoreServices().addFriends(details[0], details[1]);
-                      print("Friends Added");
-                    }
-                    
                   },
-                  child: const Text("Import from Codeforces"),
+                  style: bstyle1(),
+                  child: Text(
+                    "Import from Codeforces",
+                    style: style1(color: kwhite),
+                  ),
                 ),
               ],
             ),

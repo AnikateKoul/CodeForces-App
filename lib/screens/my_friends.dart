@@ -15,7 +15,10 @@ class _MyFriendsState extends State<MyFriends> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("My Friends", style: style1(),),
+        title: Text(
+          "My Friends",
+          style: style1(),
+        ),
         centerTitle: true,
       ),
       body: Container(
@@ -24,21 +27,37 @@ class _MyFriendsState extends State<MyFriends> {
           future: FireStoreServices().friendList(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              return ListView.builder(itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text(snapshot.data![index], style: style1(),),
-                  onTap: () {
-                    Navigator.pushNamed(context, profileScreen, arguments: snapshot.data![index]).then((value) => setState(() {}));
-                  },
+              if (snapshot.data!.isEmpty) {
+                return Center(
+                  child: Text(
+                    "You currently have 0 friends.",
+                    style: style1(),
+                    textAlign: TextAlign.center,
+                  ),
                 );
-              }, itemCount: snapshot.data!.length,);
+              }
+              return ListView.builder(
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    title: Text(
+                      snapshot.data![index],
+                      style: style1(),
+                    ),
+                    onTap: () {
+                      Navigator.pushNamed(context, profileScreen,
+                              arguments: snapshot.data![index])
+                          .then((value) => setState(() {}));
+                    },
+                  );
+                },
+                itemCount: snapshot.data!.length,
+              );
             } else {
               return const Center(
                 child: CircularProgressIndicator(),
               );
             }
           },
-          // tile1(snapshot.data![index], context);
         ),
       ),
     );

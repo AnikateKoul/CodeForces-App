@@ -1,7 +1,10 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:my_codeforces_app/constants.dart';
 import 'package:my_codeforces_app/services/firestore_services.dart';
 import 'package:my_codeforces_app/styles/button_styles.dart';
+import 'package:my_codeforces_app/styles/snackbars.dart';
 import 'package:my_codeforces_app/styles/text_styles.dart';
 import '../services/codeforces_services.dart';
 import '../templates/user.dart';
@@ -17,8 +20,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   var myFriends = [];
   Future<User> fun(Object? args) async {
     myFriends = await FireStoreServices().friendList();
-    return CodeforcesServices()
-        .userInfo(args as String);
+    return CodeforcesServices().userInfo(args as String);
   }
 
   //! friend button
@@ -31,6 +33,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
           setState(() {
             myFriends.remove(username);
           });
+          ScaffoldMessenger.of(context).showSnackBar(
+              makeSnackBar(text: "Removed Friend Successfully!", color: kred));
         },
         style: bstyle1(),
         child: Text(
@@ -45,6 +49,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
           setState(() {
             myFriends.add(username);
           });
+          ScaffoldMessenger.of(context).showSnackBar(
+              makeSnackBar(text: "Added Friend Successfully!", color: kblue));
         },
         style: bstyle1(),
         child: Text(
@@ -63,7 +69,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Scaffold(
       appBar: AppBar(
         // backgroundColor: kwhite,
-        title: Text(args as String, style: style1(),),
+        title: Text(
+          args as String,
+          style: style1(),
+        ),
         centerTitle: true,
         elevation: 0,
         shadowColor: Colors.transparent,
@@ -89,7 +98,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           SizedBox(
                             width: screenWidth / 1.2,
                             child: Text(
-                              "The user you are trying to find does not extist",
+                              "The user you are trying to find does not exist",
                               textAlign: TextAlign.center,
                               style: style1(fontSize: 30),
                             ),
@@ -149,8 +158,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             SizedBox(
-                              width: screenWidth / 1.5,
-                              height: screenHeight / 3.5,
+                              width: min(screenHeight, screenWidth) / 1.5,
+                              height: min(screenHeight, screenWidth) / 1.5,
                               child: Image.network(
                                 snapshot.data!.titlePhoto,
                                 fit: BoxFit.fill,
@@ -357,7 +366,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         //! User Submissions
                         TextButton(
                           onPressed: () {
-                            Navigator.pushNamed(context, friendSubmissions, arguments: args);
+                            Navigator.pushNamed(context, friendSubmissions,
+                                arguments: args);
                           },
                           style: bstyle1(color: kblue),
                           child: Text(

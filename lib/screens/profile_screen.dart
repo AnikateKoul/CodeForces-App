@@ -34,7 +34,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             myFriends.remove(username);
           });
           ScaffoldMessenger.of(context).showSnackBar(
-              makeSnackBar(text: "Removed Friend Successfully!", color: kred));
+              makeSnackBar(text: "Removed Friend Successfully!", color: kred, context: context));
         },
         style: bstyle1(),
         child: Text(
@@ -50,7 +50,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             myFriends.add(username);
           });
           ScaffoldMessenger.of(context).showSnackBar(
-              makeSnackBar(text: "Added Friend Successfully!", color: kblue));
+              makeSnackBar(text: "Added Friend Successfully!", color: kblue, context: context));
         },
         style: bstyle1(),
         child: Text(

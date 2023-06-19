@@ -70,7 +70,7 @@ class _AddFriendState extends State<AddFriend> {
                       await FireStoreServices()
                           .addFriends(details[0], details[1]);
                       ScaffoldMessenger.of(context).showSnackBar(makeSnackBar(
-                          text: "Friends synchronized successfully!", color: kblue));
+                          text: "Friends synchronized successfully!", color: kblue, context: context));
                     }
                   },
                   style: bstyle1(),

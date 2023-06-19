@@ -37,7 +37,13 @@ class _ContestInfoScreenState extends State<ContestInfoScreen> {
                   final String phase = snapshot.data![index].phase;
                   final int duration = snapshot.data![index].duration;
                   final int startTime = snapshot.data![index].startTime ?? 0;
-                  return tile1(id: id, name: name, phase: phase, duration: duration, startTime: startTime);
+                  return tile1(
+                      id: id,
+                      name: name,
+                      phase: phase,
+                      duration: duration,
+                      startTime: startTime,
+                      context: context);
                 },
                 itemCount: min(snapshot.data!.length, 20),
               );

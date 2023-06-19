@@ -44,9 +44,14 @@ class _UserSubmissionScreenState extends State<UserSubmissionScreen> {
                     itemBuilder: (context, index) {
                       // print(snapshot.data![index].verdict);
                       return tile2(
-                          name: snapshot.data![index].problem.name,
-                          rating: snapshot.data![index].problem.rating ?? 0,
-                          verdict: snapshot.data![index].verdict ?? "Unknown");
+                        name: snapshot.data![index].problem.name,
+                        rating: snapshot.data![index].problem.rating ?? 0,
+                        verdict: snapshot.data![index].verdict ?? "Unknown",
+                        contestId:
+                            snapshot.data![index].problem.contestId ?? 5000,
+                        submissionId: snapshot.data![index].id,
+                        context: context,
+                      );
                     },
                     itemCount: snapshot.data!.length,
                   );

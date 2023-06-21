@@ -10,6 +10,7 @@ const String searchScreen = "/searchScreen";
 const String myFriends = "/myFriends";
 const String friendSubmissions = "/friendSubmissions";
 const String contestInfo = "/contestInfo";
+const String handleScreen = "/handleScreen";
 
 //! Colours for theme
 const kblue = Color.fromARGB(255, 19, 127, 195);

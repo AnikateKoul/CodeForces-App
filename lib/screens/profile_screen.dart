@@ -52,7 +52,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ScaffoldMessenger.of(context).showSnackBar(
               makeSnackBar(text: "Added Friend Successfully!", color: kblue, context: context));
         },
-        style: bstyle1(),
+        style: bstyle1(color: kblue),
         child: Text(
           "Add Friend",
           style: style1(color: kwhite),
@@ -60,10 +60,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
       );
     }
   }
-
   @override
   Widget build(BuildContext context) {
-    final args = ModalRoute.of(context)!.settings.arguments ?? "AnikateKoul";
+    final args = ModalRoute.of(context)!.settings.arguments;
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(

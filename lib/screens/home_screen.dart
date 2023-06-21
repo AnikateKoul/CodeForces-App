@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:my_codeforces_app/constants.dart';
 import 'package:my_codeforces_app/screens/contest_info_screen.dart';
 import 'package:my_codeforces_app/services/firebase_services.dart';
+import 'package:my_codeforces_app/services/firestore_services.dart';
 import '../styles/text_styles.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -72,8 +73,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 "Codeforces Profile",
                 style: style2(),
               ),
-              onTap: () {
-                Navigator.pushNamed(context, profileScreen);
+              onTap: () async {
+                String handle = await FireStoreServices().getHandle();
+                Navigator.pushNamed(context, profileScreen, arguments: handle);
               },
             ),
             //! Search User

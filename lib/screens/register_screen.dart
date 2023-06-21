@@ -55,12 +55,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   onPressed: () async {
                     bool isSignedUp =
                         await FirebaseServices().signInWithGoogle();
-                    if (isSignedUp) {
+                    bool isHandlePresent =
+                        await FireStoreServices().isHandlePresent();
+                    if (isSignedUp && isHandlePresent) {
                       await FireStoreServices().createUser();
                       Navigator.pushReplacementNamed(context, homeScreen);
+                    } else if (isSignedUp) {
+                      Navigator.pushReplacementNamed(context, handleScreen);
                     } else {
                       print("Some error, please try again");
-
                     }
                   },
                   style: ButtonStyle(

@@ -5,16 +5,20 @@ import 'package:my_codeforces_app/constants.dart';
 import 'package:my_codeforces_app/screens/add_friend.dart';
 import 'package:my_codeforces_app/screens/add_keys.dart';
 import 'package:my_codeforces_app/screens/contest_info_screen.dart';
+import 'package:my_codeforces_app/screens/handle_setup.dart';
 import 'package:my_codeforces_app/screens/user_submissions.dart';
 import 'package:my_codeforces_app/screens/home_screen.dart';
 import 'package:my_codeforces_app/screens/my_friends.dart';
 import 'package:my_codeforces_app/screens/register_screen.dart';
 import 'package:my_codeforces_app/screens/profile_screen.dart';
 import 'package:my_codeforces_app/screens/search_screen.dart';
+import 'package:my_codeforces_app/services/firestore_services.dart';
 
+bool isHandlePresent = false;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  isHandlePresent = await FireStoreServices().isHandlePresent();
   runApp(const MyApp());
 }
 
@@ -38,7 +42,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       debugShowCheckedModeBanner: false,
-      home: isLoggedIn ? const HomeScreen() : const RegisterScreen(),
+      home: isLoggedIn ? (isHandlePresent ? const HomeScreen() : const HandleScreen()) : const RegisterScreen(),
       routes: {
         homeScreen: (context) => const HomeScreen(),
         registerScreen: (context) => const RegisterScreen(),
@@ -49,6 +53,7 @@ class MyApp extends StatelessWidget {
         myFriends: (context) => const MyFriends(),
         friendSubmissions: (context) => const UserSubmissionScreen(),
         contestInfo: (context) => const ContestInfoScreen(),
+        handleScreen: (context) => const HandleScreen(),
       },
     );
   }

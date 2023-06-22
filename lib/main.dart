@@ -18,7 +18,9 @@ bool isHandlePresent = false;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  isHandlePresent = await FireStoreServices().isHandlePresent();
+  if(FirebaseAuth.instance.currentUser != null) {
+    isHandlePresent = await FireStoreServices().isHandlePresent();
+  }
   runApp(const MyApp());
 }
 

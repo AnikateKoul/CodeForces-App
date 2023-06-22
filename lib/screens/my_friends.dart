@@ -45,7 +45,7 @@ class _MyFriendsState extends State<MyFriends> {
                     ),
                     onTap: () {
                       Navigator.pushNamed(context, profileScreen,
-                              arguments: snapshot.data![index])
+                              arguments: [snapshot.data![index], 1])
                           .then((value) => setState(() {}));
                     },
                   );

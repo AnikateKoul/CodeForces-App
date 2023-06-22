@@ -58,7 +58,7 @@ class _SearchUserState extends State<SearchUser> {
                   child: TextButton(
                     onPressed: () {
                       Navigator.pushNamed(context, profileScreen,
-                          arguments: userController.text);
+                          arguments: [userController.text, 1]);
                     },
                     style: bstyle1(),
                     child: Text(

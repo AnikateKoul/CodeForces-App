@@ -75,7 +75,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               onTap: () async {
                 String handle = await FireStoreServices().getHandle();
-                Navigator.pushNamed(context, profileScreen, arguments: handle);
+                Navigator.pushNamed(context, profileScreen, arguments: [handle, 0]);
               },
             ),
             //! Search User
@@ -95,7 +95,7 @@ class _HomeScreenState extends State<HomeScreen> {
             //! My Friends
             ListTile(
               leading: const Icon(
-                Icons.person_add_alt_1,
+                Icons.group,
                 color: kwhite,
               ),
               title: Text(
@@ -116,8 +116,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 "My Submissions",
                 style: style2(),
               ),
-              onTap: () {
-                Navigator.pushNamed(context, friendSubmissions);
+              onTap: () async {
+                String handle = await FireStoreServices().getHandle();
+                Navigator.pushNamed(context, friendSubmissions, arguments: [handle, 0]);
               },
             ),
             //! Add Friends

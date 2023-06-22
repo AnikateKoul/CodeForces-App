@@ -62,14 +62,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
   @override
   Widget build(BuildContext context) {
-    final args = ModalRoute.of(context)!.settings.arguments;
+    List _args = ModalRoute.of(context)!.settings.arguments as List;
+    final args = _args[0];
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
         // backgroundColor: kwhite,
         title: Text(
-          args as String,
+          _args[1] == 0 ? "My Profile" : args,
           style: style1(),
         ),
         centerTitle: true,
@@ -366,7 +367,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         TextButton(
                           onPressed: () {
                             Navigator.pushNamed(context, friendSubmissions,
-                                arguments: args);
+                                arguments: [args, 1]);
                           },
                           style: bstyle1(color: kblue),
                           child: Text(

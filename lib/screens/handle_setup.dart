@@ -37,7 +37,7 @@ class _HandleScreenState extends State<HandleScreen> {
               ),
               Center(
                 child: SizedBox(
-                  width: screenWidth / 1.2,
+                  width: screenWidth / 1.1,
                   child: TextFormField(
                     controller: handleController,
                     decoration: InputDecoration(

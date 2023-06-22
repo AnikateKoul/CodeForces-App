@@ -15,9 +15,9 @@ class _UserSubmissionScreenState extends State<UserSubmissionScreen> {
   Widget build(BuildContext context) {
     //! final screenWidth = MediaQuery.of(context).size.width;
     //! final screenHeight = MediaQuery.of(context).size.height;
-    final args = ModalRoute.of(context)!.settings.arguments;
-    final username = args ?? "AnikateKoul";
-    final title = args == null ? "My Submissions" : "$args's Submissions";
+    List args = ModalRoute.of(context)!.settings.arguments as List;
+    final username = args[0];
+    final title = args[1] == 0 ? "My Submissions" : "$username's Submissions";
     return Scaffold(
       appBar: AppBar(
         title: Text(

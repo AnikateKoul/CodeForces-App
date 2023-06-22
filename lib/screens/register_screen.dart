@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:my_codeforces_app/constants.dart';
 import 'package:my_codeforces_app/services/firebase_services.dart';
 import 'package:my_codeforces_app/services/firestore_services.dart';
+import 'package:my_codeforces_app/styles/text_styles.dart';
 import 'package:simple_icons/simple_icons.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -32,15 +33,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   padding: EdgeInsets.symmetric(
                     horizontal: screenWidth / 20,
                   ),
-                  child: const Text(
-                    "Welcome to Codeforces App",
+                  child: Text(
+                    "Welcome to \n\nCodeforces Companion",
                     textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontFamily: 'Source Sans Pro',
-                      fontSize: 50,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black,
-                    ),
+                    style: style1(fontSize: 36),
                   ),
                 ),
               ],
@@ -51,36 +47,36 @@ class _RegisterScreenState extends State<RegisterScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                TextButton.icon(
-                  onPressed: () async {
-                    bool isSignedUp =
-                        await FirebaseServices().signInWithGoogle();
-                    bool isHandlePresent =
-                        await FireStoreServices().isHandlePresent();
-                    if (isSignedUp && isHandlePresent) {
-                      await FireStoreServices().createUser();
-                      Navigator.pushReplacementNamed(context, homeScreen);
-                    } else if (isSignedUp) {
-                      Navigator.pushReplacementNamed(context, handleScreen);
-                    } else {
-                      print("Some error, please try again");
-                    }
-                  },
-                  style: ButtonStyle(
-                      iconColor: MaterialStateProperty.all<Color>(kblue),
-                      backgroundColor: MaterialStateProperty.all<Color>(
-                          const Color.fromARGB(26, 228, 209, 209))),
-                  icon: const Icon(SimpleIcons.google),
-                  label: const Padding(
-                    padding: EdgeInsets.only(left: 10),
-                    child: Text(
-                      "Sign In With Google",
-                      style: TextStyle(
-                        fontFamily: 'Source Sans Pro',
-                        fontSize: 20,
-                        fontWeight: FontWeight.w500,
-                        color: kred,
-                      ),
+                SizedBox(
+                  width: screenWidth/1.3,
+                  child: TextButton(
+                    onPressed: () async {
+                      bool isSignedUp =
+                          await FirebaseServices().signInWithGoogle();
+                      bool isHandlePresent =
+                          await FireStoreServices().isHandlePresent();
+                      if (isSignedUp && isHandlePresent) {
+                        await FireStoreServices().createUser();
+                        Navigator.pushReplacementNamed(context, homeScreen);
+                      } else if (isSignedUp) {
+                        Navigator.pushReplacementNamed(context, handleScreen);
+                      } else {
+                        print("Some error, please try again");
+                      }
+                    },
+                    style: ButtonStyle(
+                        iconColor: MaterialStateProperty.all<Color>(kblue),
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                            const Color.fromARGB(26, 228, 209, 209))),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,              
+                      children: [
+                        Image.asset('assets/images/googleLogo.png', width: 30, height: 30,),
+                        Text(
+                          "Sign In With Google",
+                          style: style1(color: kred, fontSize: 25),
+                        ),
+                      ],
                     ),
                   ),
                 ),

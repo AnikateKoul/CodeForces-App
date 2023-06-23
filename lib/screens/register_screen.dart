@@ -48,7 +48,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SizedBox(
-                  width: screenWidth/1.3,
+                  width: screenWidth / 1.3,
                   child: TextButton(
                     onPressed: () async {
                       bool isSignedUp =
@@ -56,9 +56,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       bool isHandlePresent =
                           await FireStoreServices().isHandlePresent();
                       if (isSignedUp && isHandlePresent) {
-                        await FireStoreServices().createUser();
                         Navigator.pushReplacementNamed(context, homeScreen);
                       } else if (isSignedUp) {
+                        await FireStoreServices().createUser();
                         Navigator.pushReplacementNamed(context, handleScreen);
                       } else {
                         print("Some error, please try again");
@@ -69,9 +69,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         backgroundColor: MaterialStateProperty.all<Color>(
                             const Color.fromARGB(26, 228, 209, 209))),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,              
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        Image.asset('assets/images/googleLogo.png', width: 30, height: 30,),
+                        Image.asset(
+                          'assets/images/googleLogo.png',
+                          width: 30,
+                          height: 30,
+                        ),
                         Text(
                           "Sign In With Google",
                           style: style1(color: kred, fontSize: 25),

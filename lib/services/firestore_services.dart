@@ -86,23 +86,32 @@ class FireStoreServices {
     String newHandle = (await CodeforcesServices().userInfo(handle)).handle;
     String _newHandle = newHandle.toLowerCase();
     handle = handle.toLowerCase();
-    if(handle != _newHandle) return false;
-    await db.collection("Users").doc(user.email).update({
-      "handle": newHandle,
-    });
+    if (handle != _newHandle) return false;
+    if (!(await isHandlePresent())) {
+      await db.collection("Users").doc(user.email).set({
+        "handle": newHandle,
+      }, SetOptions(merge: true));
+    } else {
+      await db.collection("Users").doc(user.email).update({
+        "handle": newHandle,
+      });
+    }
+
     return true;
   }
 
   Future<bool> isHandlePresent() async {
     final userDocRef = db.collection("Users").doc(user.email);
     final doc = await userDocRef.get();
+    if (!doc.exists) return false;
     if (doc.data()!.containsKey("handle")) {
       return true;
     } else {
       return false;
     }
   }
-  Future<String> getHandle() async{
+
+  Future<String> getHandle() async {
     final userDocRef = db.collection("Users").doc(user.email);
     final doc = await userDocRef.get();
     return doc["handle"];

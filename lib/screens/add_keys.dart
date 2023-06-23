@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:my_codeforces_app/constants.dart';
 import 'package:my_codeforces_app/services/codeforces_services.dart';
 import 'package:my_codeforces_app/services/firestore_services.dart';
+import 'package:my_codeforces_app/styles/snackbars.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AddKeys extends StatefulWidget {
@@ -70,11 +72,26 @@ class _AddKeysState extends State<AddKeys> {
               height: screenHeight / 20,
             ),
             TextButton(
-              onPressed: () async{
+              onPressed: () async {
                 await FireStoreServices().addKey(_apiKey.text, _secret.text);
                 // Navigator.pop(context);
-               bool b = await CodeforcesServices(apiKey: _apiKey.text, secret: _secret.text).checkKey();
-               print(b);
+                bool b = await CodeforcesServices(
+                        apiKey: _apiKey.text, secret: _secret.text)
+                    .checkKey();
+                if (b) {
+                  await FireStoreServices()
+                      .addFriends(_apiKey.text, _secret.text);
+                  ScaffoldMessenger.of(context).showSnackBar(makeSnackBar(
+                      text: "Friends synchronized successfully!",
+                      color: kblue,
+                      context: context));
+                  Navigator.pop(context);
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(makeSnackBar(
+                      text: "The API key and/or secret are not correct!",
+                      color: kred,
+                      context: context));
+                }
               },
               child: const Text("Add key"),
             ),

@@ -123,6 +123,7 @@ class CodeforcesServices {
     http.Response response = await http.get(Uri.parse(url));
     if(response.statusCode == 200) {
       var body = jsonDecode(response.body);
+      // print("Data aaya");
       if(body["status"] == "OK") {
         var data = body["result"];
         var tempData = data.map((myData) => Contest.fromJson(myData)).toList();

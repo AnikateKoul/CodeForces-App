@@ -3,7 +3,6 @@ import 'package:my_codeforces_app/constants.dart';
 import 'package:my_codeforces_app/services/firebase_services.dart';
 import 'package:my_codeforces_app/services/firestore_services.dart';
 import 'package:my_codeforces_app/styles/text_styles.dart';
-import 'package:simple_icons/simple_icons.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});

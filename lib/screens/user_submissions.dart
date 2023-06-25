@@ -26,42 +26,47 @@ class _UserSubmissionScreenState extends State<UserSubmissionScreen> {
         ),
         centerTitle: true,
       ),
-      body: SizedBox(
-        child: FutureBuilder(
-            future: CodeforcesServices().userSubmissions(username as String),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                if (snapshot.data!.isEmpty) {
-                  return Center(
-                    child: Text(
-                      "No submissions to display",
-                      style: style1(fontSize: 25),
-                      textAlign: TextAlign.center,
-                    ),
-                  );
+      body: RefreshIndicator(
+        onRefresh: () async {
+          setState(() {});
+        },
+        child: SizedBox(
+          child: FutureBuilder(
+              future: CodeforcesServices().userSubmissions(username as String),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  if (snapshot.data!.isEmpty) {
+                    return Center(
+                      child: Text(
+                        "No submissions to display",
+                        style: style1(fontSize: 25),
+                        textAlign: TextAlign.center,
+                      ),
+                    );
+                  } else {
+                    return ListView.builder(
+                      itemBuilder: (context, index) {
+                        // print(snapshot.data![index].verdict);
+                        return tile2(
+                          name: snapshot.data![index].problem.name,
+                          rating: snapshot.data![index].problem.rating ?? 0,
+                          verdict: snapshot.data![index].verdict ?? "Unknown",
+                          contestId:
+                              snapshot.data![index].problem.contestId ?? 5000,
+                          submissionId: snapshot.data![index].id,
+                          context: context,
+                        );
+                      },
+                      itemCount: snapshot.data!.length,
+                    );
+                  }
                 } else {
-                  return ListView.builder(
-                    itemBuilder: (context, index) {
-                      // print(snapshot.data![index].verdict);
-                      return tile2(
-                        name: snapshot.data![index].problem.name,
-                        rating: snapshot.data![index].problem.rating ?? 0,
-                        verdict: snapshot.data![index].verdict ?? "Unknown",
-                        contestId:
-                            snapshot.data![index].problem.contestId ?? 5000,
-                        submissionId: snapshot.data![index].id,
-                        context: context,
-                      );
-                    },
-                    itemCount: snapshot.data!.length,
+                  return const Center(
+                    child: CircularProgressIndicator(),
                   );
                 }
-              } else {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-            }),
+              }),
+        ),
       ),
     );
   }

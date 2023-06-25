@@ -21,43 +21,48 @@ class _MyFriendsState extends State<MyFriends> {
         ),
         centerTitle: true,
       ),
-      body: Container(
-        color: kwhite,
-        child: FutureBuilder(
-          future: FireStoreServices().friendList(),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              if (snapshot.data!.isEmpty) {
-                return Center(
-                  child: Text(
-                    "You currently have 0 friends.",
-                    style: style1(),
-                    textAlign: TextAlign.center,
-                  ),
+      body: RefreshIndicator(
+        onRefresh: () async {
+          setState(() {});
+        },
+        child: Container(
+          color: kwhite,
+          child: FutureBuilder(
+            future: FireStoreServices().friendList(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                if (snapshot.data!.isEmpty) {
+                  return Center(
+                    child: Text(
+                      "You currently have 0 friends.",
+                      style: style1(),
+                      textAlign: TextAlign.center,
+                    ),
+                  );
+                }
+                return ListView.builder(
+                  itemBuilder: (context, index) {
+                    return ListTile(
+                      title: Text(
+                        snapshot.data![index],
+                        style: style1(),
+                      ),
+                      onTap: () {
+                        Navigator.pushNamed(context, profileScreen,
+                                arguments: [snapshot.data![index], 1])
+                            .then((value) => setState(() {}));
+                      },
+                    );
+                  },
+                  itemCount: snapshot.data!.length,
+                );
+              } else {
+                return const Center(
+                  child: CircularProgressIndicator(),
                 );
               }
-              return ListView.builder(
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    title: Text(
-                      snapshot.data![index],
-                      style: style1(),
-                    ),
-                    onTap: () {
-                      Navigator.pushNamed(context, profileScreen,
-                              arguments: [snapshot.data![index], 1])
-                          .then((value) => setState(() {}));
-                    },
-                  );
-                },
-                itemCount: snapshot.data!.length,
-              );
-            } else {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-          },
+            },
+          ),
         ),
       ),
     );

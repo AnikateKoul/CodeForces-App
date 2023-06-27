@@ -6,10 +6,10 @@ class FireStoreServices {
   final db = FirebaseFirestore.instance;
   final user = FirebaseAuth.instance.currentUser!;
   createUser() async {
-    final userDocRef = db.collection("Users").doc(user.email);
+    final userDocRef = db.collection("Users").doc(user.uid);
     final doc = await userDocRef.get();
     if (!doc.exists) {
-      await db.collection("Users").doc(user.email).set({
+      await db.collection("Users").doc(user.uid).set({
         "name": user.displayName,
         "email": user.email,
         "timestamp": DateTime.now(),
@@ -20,17 +20,17 @@ class FireStoreServices {
   }
 
   addKey(String apiKey, String secret) async {
-    await db.collection("Keys").doc(user.email).set({
+    await db.collection("Keys").doc(user.uid).set({
       "apiKey": apiKey,
       "secret": secret,
     });
   }
 
   Future<List> friendList() async {
-    final userDocRef = db.collection("Friends").doc(user.email);
+    final userDocRef = db.collection("Friends").doc(user.uid);
     final doc = await userDocRef.get();
     if (!doc.exists) {
-      await db.collection("Friends").doc(user.email).set({
+      await db.collection("Friends").doc(user.uid).set({
         "friends": [],
       });
       return [];
@@ -44,7 +44,7 @@ class FireStoreServices {
     var newFriends = await CodeforcesServices().importFriends(apiKey, secret);
     newFriends = oldFriends + newFriends;
     newFriends = newFriends.toSet().toList();
-    await db.collection("Friends").doc(user.email).set({
+    await db.collection("Friends").doc(user.uid).set({
       "friends": newFriends,
     });
   }
@@ -53,7 +53,7 @@ class FireStoreServices {
     var oldFriends = await friendList();
     var newFriends = oldFriends + [username];
     newFriends = newFriends.toSet().toList();
-    await db.collection("Friends").doc(user.email).set({
+    await db.collection("Friends").doc(user.uid).set({
       "friends": newFriends,
     });
     if (oldFriends.length == newFriends.length) {
@@ -64,9 +64,10 @@ class FireStoreServices {
   }
 
   keyAndSecret() async {
-    final userDocRef = db.collection("Keys").doc(user.email);
+    final userDocRef = db.collection("Keys").doc(user.uid);
     final doc = await userDocRef.get();
     if (!doc.exists) {
+      print("Uid is : ${user.uid} and doc does not exist");
       return [null, null];
     } else {
       return [doc["apiKey"], doc["secret"]];
@@ -76,7 +77,7 @@ class FireStoreServices {
   removeFriend(String username) async {
     var oldFriends = await friendList();
     oldFriends.remove(username);
-    await db.collection("Friends").doc(user.email).set({
+    await db.collection("Friends").doc(user.uid).set({
       "friends": oldFriends,
     });
     print("Friend Removed");
@@ -88,11 +89,11 @@ class FireStoreServices {
     handle = handle.toLowerCase();
     if (handle != _newHandle) return false;
     if (!(await isHandlePresent())) {
-      await db.collection("Users").doc(user.email).set({
+      await db.collection("Users").doc(user.uid).set({
         "handle": newHandle,
       }, SetOptions(merge: true));
     } else {
-      await db.collection("Users").doc(user.email).update({
+      await db.collection("Users").doc(user.uid).update({
         "handle": newHandle,
       });
     }
@@ -101,7 +102,7 @@ class FireStoreServices {
   }
 
   Future<bool> isHandlePresent() async {
-    final userDocRef = db.collection("Users").doc(user.email);
+    final userDocRef = db.collection("Users").doc(user.uid);
     final doc = await userDocRef.get();
     if (!doc.exists) return false;
     if (doc.data()!.containsKey("handle")) {
@@ -112,7 +113,7 @@ class FireStoreServices {
   }
 
   Future<String> getHandle() async {
-    final userDocRef = db.collection("Users").doc(user.email);
+    final userDocRef = db.collection("Users").doc(user.uid);
     final doc = await userDocRef.get();
     return doc["handle"];
   }

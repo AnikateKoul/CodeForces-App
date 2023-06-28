@@ -23,7 +23,7 @@ class _ContestInfoScreenState extends State<ContestInfoScreen> {
       child: Container(
         color: kwhite,
         child: FutureBuilder(
-          future: CodeforcesServices().contestInfo(),
+          future: CodeforcesServices().contestInfo(context),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               if (snapshot.data!.isEmpty) {

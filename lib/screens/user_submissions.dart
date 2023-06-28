@@ -32,7 +32,7 @@ class _UserSubmissionScreenState extends State<UserSubmissionScreen> {
         },
         child: SizedBox(
           child: FutureBuilder(
-              future: CodeforcesServices().userSubmissions(username as String),
+              future: CodeforcesServices().userSubmissions(username as String, context),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   if (snapshot.data!.isEmpty) {

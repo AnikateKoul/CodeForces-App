@@ -1,9 +1,12 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:my_codeforces_app/constants.dart';
 import 'package:my_codeforces_app/screens/contest_info_screen.dart';
 import 'package:my_codeforces_app/services/firebase_services.dart';
 import 'package:my_codeforces_app/services/firestore_services.dart';
+import 'package:my_codeforces_app/styles/snackbars.dart';
 import '../styles/text_styles.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -74,8 +77,17 @@ class _HomeScreenState extends State<HomeScreen> {
                 style: style2(),
               ),
               onTap: () async {
-                String handle = await FireStoreServices().getHandle();
-                Navigator.pushNamed(context, profileScreen, arguments: [handle, 0]);
+                try {
+                  String handle = await FireStoreServices().getHandle();
+                  Navigator.pushNamed(context, profileScreen,
+                      arguments: [handle, 0]);
+                } catch (e) {
+                  ScaffoldMessenger.of(context).showSnackBar(makeSnackBar(
+                      text:
+                          "Some error occured. Please check your internet connection!",
+                      color: kred,
+                      context: context));
+                }
               },
             ),
             //! Search User
@@ -117,8 +129,17 @@ class _HomeScreenState extends State<HomeScreen> {
                 style: style2(),
               ),
               onTap: () async {
-                String handle = await FireStoreServices().getHandle();
-                Navigator.pushNamed(context, friendSubmissions, arguments: [handle, 0]);
+                try {
+                  String handle = await FireStoreServices().getHandle();
+                  Navigator.pushNamed(context, friendSubmissions,
+                      arguments: [handle, 0]);
+                } catch (e) {
+                  ScaffoldMessenger.of(context).showSnackBar(makeSnackBar(
+                      text:
+                          "Some error occured. Please check your internet connection!",
+                      color: kred,
+                      context: context));
+                }
               },
             ),
             //! Add Friends
@@ -146,8 +167,16 @@ class _HomeScreenState extends State<HomeScreen> {
                 style: style2(),
               ),
               onTap: () async {
-                await FirebaseServices().signOut();
-                Navigator.pushReplacementNamed(context, registerScreen);
+                try {
+                  await FirebaseServices().signOut();
+                  Navigator.pushReplacementNamed(context, registerScreen);
+                } catch (e) {
+                  ScaffoldMessenger.of(context).showSnackBar(makeSnackBar(
+                      text:
+                          "Some error occured. Please check your internet connection!",
+                      color: kred,
+                      context: context));
+                }
               },
             ),
           ],

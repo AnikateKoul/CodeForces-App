@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:my_codeforces_app/styles/button_styles.dart';
 import 'package:my_codeforces_app/styles/snackbars.dart';
@@ -58,12 +60,23 @@ class _HandleScreenState extends State<HandleScreen> {
               Center(
                 child: TextButton(
                   onPressed: () async {
-                    bool isHandleValid = await FireStoreServices().setupHandle(handleController.text);
-                    if(isHandleValid) {
-                      Navigator.pushReplacementNamed(context, homeScreen);
-                    }
-                    else {
-                      ScaffoldMessenger.of(context).showSnackBar(makeSnackBar(text: "The handle is not correct", color: kred, context: context));
+                    try {
+                      bool isHandleValid = await FireStoreServices()
+                          .setupHandle(handleController.text, context);
+                      if (isHandleValid) {
+                        Navigator.pushReplacementNamed(context, homeScreen);
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(makeSnackBar(
+                            text: "The handle is not correct",
+                            color: kred,
+                            context: context));
+                      }
+                    } catch (e) {
+                      ScaffoldMessenger.of(context).showSnackBar(makeSnackBar(
+                          text:
+                              "Some error occured. Please check your internet connection!",
+                          color: kred,
+                          context: context));
                     }
                   },
                   style: bstyle1(),

@@ -28,7 +28,7 @@ class _MyFriendsState extends State<MyFriends> {
         child: Container(
           color: kwhite,
           child: FutureBuilder(
-            future: FireStoreServices().friendList(),
+            future: FireStoreServices().friendList(context),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 if (snapshot.data!.isEmpty) {

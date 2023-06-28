@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:my_codeforces_app/constants.dart';
 import 'package:my_codeforces_app/styles/button_styles.dart';
@@ -61,17 +63,27 @@ class _AddFriendState extends State<AddFriend> {
                 //! Import From CodeForces Button
                 TextButton(
                   onPressed: () async {
-                    var details = await FireStoreServices().keyAndSecret();
-                    // print(details);
-                    bool b = await CodeforcesServices()
-                        .checkKey1(details[0], details[1]);
-                    if (!b) {
-                      Navigator.pushNamed(context, addKeyScreen);
-                    } else {
-                      await FireStoreServices()
-                          .addFriends(details[0], details[1]);
+                    try {
+                      var details = await FireStoreServices().keyAndSecret();
+                      // print(details);
+                      bool b = await CodeforcesServices()
+                          .checkKey1(details[0], details[1], context);
+                      if (!b) {
+                        Navigator.pushNamed(context, addKeyScreen);
+                      } else {
+                        await FireStoreServices()
+                            .addFriends(details[0], details[1], context);
+                        ScaffoldMessenger.of(context).showSnackBar(makeSnackBar(
+                            text: "Friends synchronized successfully!",
+                            color: kblue,
+                            context: context));
+                      }
+                    } catch (e) {
                       ScaffoldMessenger.of(context).showSnackBar(makeSnackBar(
-                          text: "Friends synchronized successfully!", color: kblue, context: context));
+                          text:
+                              "Some error occured. Please check your internet connection!",
+                          color: kred,
+                          context: context));
                     }
                   },
                   style: bstyle1(),

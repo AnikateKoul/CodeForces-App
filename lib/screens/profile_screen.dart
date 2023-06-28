@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -18,9 +20,18 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   var myFriends = [];
-  Future<User> fun(Object? args) async {
-    myFriends = await FireStoreServices().friendList();
-    return CodeforcesServices().userInfo(args as String);
+  Future<User> fun(Object? args, BuildContext context) async {
+    try {
+      myFriends = await FireStoreServices().friendList(context);
+      return CodeforcesServices().userInfo(args as String, context);
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(makeSnackBar(
+          text: "Some error occured. Please check your internet connection!",
+          color: kred,
+          context: context));
+      return User(
+          handle: "//", contribution: 0, titlePhoto: "//", friendOfCount: 0);
+    }
   }
 
   //! friend button
@@ -29,14 +40,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
     if (myFriends.contains(username)) {
       return TextButton(
         onPressed: () async {
-          await FireStoreServices().removeFriend(username);
-          setState(() {
-            myFriends.remove(username);
-          });
-          ScaffoldMessenger.of(context).showSnackBar(makeSnackBar(
-              text: "Removed Friend Successfully!",
-              color: kred,
-              context: context));
+          try {
+            await FireStoreServices().removeFriend(username, context);
+            setState(() {
+              myFriends.remove(username);
+            });
+            ScaffoldMessenger.of(context).showSnackBar(makeSnackBar(
+                text: "Removed Friend Successfully!",
+                color: kred,
+                context: context));
+          } catch (e) {
+            ScaffoldMessenger.of(context).showSnackBar(makeSnackBar(
+                text:
+                    "Some error occured. Please check your internet connection!",
+                color: kred,
+                context: context));
+          }
         },
         style: bstyle1(),
         child: Text(
@@ -47,14 +66,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
     } else {
       return TextButton(
         onPressed: () async {
-          await FireStoreServices().addFriend(username);
-          setState(() {
-            myFriends.add(username);
-          });
-          ScaffoldMessenger.of(context).showSnackBar(makeSnackBar(
-              text: "Added Friend Successfully!",
-              color: kblue,
-              context: context));
+          try {
+            await FireStoreServices().addFriend(username, context);
+            setState(() {
+              myFriends.add(username);
+            });
+            ScaffoldMessenger.of(context).showSnackBar(makeSnackBar(
+                text: "Added Friend Successfully!",
+                color: kblue,
+                context: context));
+          } catch (e) {
+            ScaffoldMessenger.of(context).showSnackBar(makeSnackBar(
+                text:
+                    "Some error occured. Please check your internet connection!",
+                color: kred,
+                context: context));
+          }
         },
         style: bstyle1(color: kblue),
         child: Text(
@@ -90,7 +117,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           color: kwhite,
           child: FutureBuilder(
               //! enter user profile here ->
-              future: fun(args),
+              future: fun(args, context),
               builder: (context, snapshot) {
                 // print(snapshot);
                 if (snapshot.hasData) {

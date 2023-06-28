@@ -1,5 +1,10 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:my_codeforces_app/constants.dart';
+import 'package:my_codeforces_app/styles/snackbars.dart';
 import 'codeforces_services.dart';
 
 class FireStoreServices {
@@ -20,28 +25,41 @@ class FireStoreServices {
   }
 
   addKey(String apiKey, String secret) async {
-    await db.collection("Keys").doc(user.uid).set({
-      "apiKey": apiKey,
-      "secret": secret,
-    });
-  }
-
-  Future<List> friendList() async {
-    final userDocRef = db.collection("Friends").doc(user.uid);
-    final doc = await userDocRef.get();
-    if (!doc.exists) {
-      await db.collection("Friends").doc(user.uid).set({
-        "friends": [],
+    try {
+      await db.collection("Keys").doc(user.uid).set({
+        "apiKey": apiKey,
+        "secret": secret,
       });
-      return [];
-    } else {
-      return doc["friends"];
+    } catch (e) {
+      rethrow;
     }
   }
 
-  addFriends(String? apiKey, String? secret) async {
-    var oldFriends = await friendList();
-    var newFriends = await CodeforcesServices().importFriends(apiKey, secret);
+  Future<List> friendList(BuildContext context) async {
+    try {
+      final userDocRef = db.collection("Friends").doc(user.uid);
+      final doc = await userDocRef.get();
+      if (!doc.exists) {
+        await db.collection("Friends").doc(user.uid).set({
+          "friends": [],
+        });
+        return [];
+      } else {
+        return doc["friends"];
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(makeSnackBar(
+          text: "Some error occured. Please check your internet connection!",
+          color: kred,
+          context: context));
+      return [];
+    }
+  }
+
+  addFriends(String? apiKey, String? secret, BuildContext context) async {
+    var oldFriends = await friendList(context);
+    var newFriends =
+        await CodeforcesServices().importFriends(apiKey, secret, context);
     newFriends = oldFriends + newFriends;
     newFriends = newFriends.toSet().toList();
     await db.collection("Friends").doc(user.uid).set({
@@ -49,8 +67,8 @@ class FireStoreServices {
     });
   }
 
-  addFriend(String username) async {
-    var oldFriends = await friendList();
+  addFriend(String username, BuildContext context) async {
+    var oldFriends = await friendList(context);
     var newFriends = oldFriends + [username];
     newFriends = newFriends.toSet().toList();
     await db.collection("Friends").doc(user.uid).set({
@@ -64,18 +82,22 @@ class FireStoreServices {
   }
 
   keyAndSecret() async {
-    final userDocRef = db.collection("Keys").doc(user.uid);
-    final doc = await userDocRef.get();
-    if (!doc.exists) {
-      print("Uid is : ${user.uid} and doc does not exist");
-      return [null, null];
-    } else {
-      return [doc["apiKey"], doc["secret"]];
+    try {
+      final userDocRef = db.collection("Keys").doc(user.uid);
+      final doc = await userDocRef.get();
+      if (!doc.exists) {
+        print("Uid is : ${user.uid} and doc does not exist");
+        return [null, null];
+      } else {
+        return [doc["apiKey"], doc["secret"]];
+      }
+    } catch (e) {
+      rethrow;
     }
   }
 
-  removeFriend(String username) async {
-    var oldFriends = await friendList();
+  removeFriend(String username, BuildContext context) async {
+    var oldFriends = await friendList(context);
     oldFriends.remove(username);
     await db.collection("Friends").doc(user.uid).set({
       "friends": oldFriends,
@@ -83,22 +105,27 @@ class FireStoreServices {
     print("Friend Removed");
   }
 
-  Future<bool> setupHandle(String handle) async {
-    String newHandle = (await CodeforcesServices().userInfo(handle)).handle;
-    String _newHandle = newHandle.toLowerCase();
-    handle = handle.toLowerCase();
-    if (handle != _newHandle) return false;
-    if (!(await isHandlePresent())) {
-      await db.collection("Users").doc(user.uid).set({
-        "handle": newHandle,
-      }, SetOptions(merge: true));
-    } else {
-      await db.collection("Users").doc(user.uid).update({
-        "handle": newHandle,
-      });
-    }
+  Future<bool> setupHandle(String handle, BuildContext context) async {
+    try {
+      String newHandle =
+          (await CodeforcesServices().userInfo(handle, context)).handle;
+      String _newHandle = newHandle.toLowerCase();
+      handle = handle.toLowerCase();
+      if (handle != _newHandle) return false;
+      if (!(await isHandlePresent())) {
+        await db.collection("Users").doc(user.uid).set({
+          "handle": newHandle,
+        }, SetOptions(merge: true));
+      } else {
+        await db.collection("Users").doc(user.uid).update({
+          "handle": newHandle,
+        });
+      }
 
-    return true;
+      return true;
+    } catch (e) {
+      rethrow;
+    }
   }
 
   Future<bool> isHandlePresent() async {

@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -16,14 +15,24 @@ import 'package:my_codeforces_app/screens/profile_screen.dart';
 import 'package:my_codeforces_app/screens/search_screen.dart';
 import 'package:my_codeforces_app/services/firestore_services.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:my_codeforces_app/styles/button_styles.dart';
+import 'package:my_codeforces_app/styles/text_styles.dart';
+import 'package:restart_app/restart_app.dart';
 
 bool isHandlePresent = false;
 bool isLoggedIn = false;
+bool isConnected = true;
 void main() async {
+  print("I ran");
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   if (FirebaseAuth.instance.currentUser != null) {
     isHandlePresent = await FireStoreServices().isHandlePresent();
+  }
+  final connectivityResult = await (Connectivity().checkConnectivity());
+  if (connectivityResult == ConnectivityResult.none) {
+    isConnected = false;
   }
   runApp(const MyApp());
 }
@@ -72,12 +81,50 @@ class SplashScreen extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
     return AnimatedSplashScreen(
       duration: 1500,
-      splashIconSize: min(screenWidth/1.2, screenHeight/1.2),
+      splashIconSize: min(screenWidth / 1.2, screenHeight / 1.2),
       splash: 'assets/images/appLogo.png',
-      nextScreen: isLoggedIn
+      nextScreen: isConnected ? isLoggedIn
           ? (isHandlePresent ? const HomeScreen() : const HandleScreen())
-          : const RegisterScreen(),
+          : const RegisterScreen() : const NoInternetScreen(),
       splashTransition: SplashTransition.slideTransition,
+    );
+  }
+}
+
+class NoInternetScreen extends StatefulWidget {
+  const NoInternetScreen({super.key});
+
+  @override
+  State<NoInternetScreen> createState() => _NoInternetScreenState();
+}
+
+class _NoInternetScreenState extends State<NoInternetScreen> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: Container(
+          color: kwhite,
+          child: Column(
+            children: [
+              Text(
+                "No internet connection! Please check your connection",
+                style: style1(fontSize: 30),
+              ),
+              TextButton(
+                onPressed: () {
+                  Restart.restartApp(webOrigin: '[your main route]');
+                },
+                style: bstyle1(),
+                child: Text(
+                  "Try again",
+                  style: style1(color: kwhite),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

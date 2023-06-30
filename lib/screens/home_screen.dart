@@ -4,10 +4,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:my_codeforces_app/constants.dart';
 import 'package:my_codeforces_app/screens/contest_info_screen.dart';
+import 'package:my_codeforces_app/services/codeforces_services.dart';
 import 'package:my_codeforces_app/services/firebase_services.dart';
 import 'package:my_codeforces_app/services/firestore_services.dart';
 import 'package:my_codeforces_app/styles/snackbars.dart';
 import '../styles/text_styles.dart';
+import '../templates/user.dart' as my_user;
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -79,9 +81,12 @@ class _HomeScreenState extends State<HomeScreen> {
               onTap: () async {
                 try {
                   String handle = await FireStoreServices().getHandle();
+                  my_user.User data = await CodeforcesServices().userInfo(handle, context);
+                      List friendList = await FireStoreServices().friendList(context);
                   Navigator.pushNamed(context, profileScreen,
-                      arguments: [handle, 0]);
+                      arguments: [data, friendList, 0]);
                 } catch (e) {
+                  // print(e);
                   ScaffoldMessenger.of(context).showSnackBar(makeSnackBar(
                       text:
                           "Some error occured. Please check your internet connection!",

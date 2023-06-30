@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, avoid_print, no_leading_underscores_for_local_identifiers
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -107,6 +107,7 @@ class FireStoreServices {
 
   Future<bool> setupHandle(String handle, BuildContext context) async {
     try {
+      handle = handle.trim();
       String newHandle =
           (await CodeforcesServices().userInfo(handle, context)).handle;
       String _newHandle = newHandle.toLowerCase();

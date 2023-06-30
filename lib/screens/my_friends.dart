@@ -1,6 +1,10 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:my_codeforces_app/constants.dart';
+import 'package:my_codeforces_app/services/codeforces_services.dart';
 import 'package:my_codeforces_app/styles/text_styles.dart';
+import 'package:my_codeforces_app/templates/user.dart';
 import '../services/firestore_services.dart';
 
 class MyFriends extends StatefulWidget {
@@ -47,9 +51,10 @@ class _MyFriendsState extends State<MyFriends> {
                         snapshot.data![index],
                         style: style1(),
                       ),
-                      onTap: () {
+                      onTap: () async {
+                        User details = await CodeforcesServices().userInfo(snapshot.data![index], context);
                         Navigator.pushNamed(context, profileScreen,
-                                arguments: [snapshot.data![index], 1])
+                                arguments: [details, snapshot.data!, 1])
                             .then((value) => setState(() {}));
                       },
                     );

@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -66,11 +68,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             await FireStoreServices().createUser();
                             Navigator.pushReplacementNamed(
                                 context, handleScreen);
-                          } else {
-                            print("Some error, please try again");
                           }
                         } catch (e) {
-                          ScaffoldMessenger.of(context).showSnackBar(makeSnackBar(text: "No Internet. Please check your connection!", color: kred, context: context));
+                          ScaffoldMessenger.of(context).showSnackBar(makeSnackBar(text: "Login unsuccessful. Please check your connection!", color: kred, context: context));
                         }
                       },
                       style: ButtonStyle(

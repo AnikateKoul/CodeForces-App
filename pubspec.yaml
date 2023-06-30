@@ -47,6 +47,11 @@ dependencies:
   animated_splash_screen: ^1.3.0
   connectivity_plus: ^4.0.1
   restart_app: ^1.2.1
+  flutter_launcher_icons: ^0.13.1
+
+flutter_icons:
+  image_path: "assets/images/appLogo1.png" 
+  android: false
 
 dev_dependencies:
   flutter_test:

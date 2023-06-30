@@ -24,7 +24,7 @@ bool isHandlePresent = false;
 bool isLoggedIn = false;
 bool isConnected = true;
 void main() async {
-  print("I ran");
+  // print("I ran");
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   if (FirebaseAuth.instance.currentUser != null) {
@@ -101,19 +101,34 @@ class NoInternetScreen extends StatefulWidget {
 class _NoInternetScreenState extends State<NoInternetScreen> {
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
+      appBar: AppBar(
+        title: Text("CF Companion", style: style1()),
+        centerTitle: true,
+      ),
       body: Center(
         child: Container(
           color: kwhite,
           child: Column(
             children: [
-              Text(
-                "No internet connection! Please check your connection",
-                style: style1(fontSize: 30),
+              SizedBox(
+                height: screenHeight/20,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  "No internet connection! Please check your connection",
+                  textAlign: TextAlign.center,
+                  style: style1(fontSize: 30),
+                ),
+              ),
+              SizedBox(
+                height: screenHeight/15,
               ),
               TextButton(
                 onPressed: () {
-                  Restart.restartApp(webOrigin: '[your main route]');
+                  Restart.restartApp();
                 },
                 style: bstyle1(),
                 child: Text(

@@ -1,7 +1,12 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:my_codeforces_app/constants.dart';
+import 'package:my_codeforces_app/services/codeforces_services.dart';
+import 'package:my_codeforces_app/services/firestore_services.dart';
 import 'package:my_codeforces_app/styles/button_styles.dart';
 import 'package:my_codeforces_app/styles/text_styles.dart';
+import 'package:my_codeforces_app/templates/user.dart';
 
 class SearchUser extends StatefulWidget {
   const SearchUser({super.key});
@@ -56,9 +61,12 @@ class _SearchUserState extends State<SearchUser> {
                 child: SizedBox(
                   width: screenWidth / 2.5,
                   child: TextButton(
-                    onPressed: () {
+                    onPressed: () async {
+                      User data = await CodeforcesServices().userInfo(userController.text, context);
+                      if(data.handle == "//") data.handle = userController.text;
+                      List friendList = await FireStoreServices().friendList(context);
                       Navigator.pushNamed(context, profileScreen,
-                          arguments: [userController.text, 1]);
+                          arguments: [data, friendList, 1]);
                     },
                     style: bstyle1(),
                     child: Text(

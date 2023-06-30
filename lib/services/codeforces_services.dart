@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:http/http.dart' as http;
 import 'package:crypto/crypto.dart';
 import 'package:my_codeforces_app/constants.dart';
@@ -73,23 +75,26 @@ class CodeforcesServices {
     }
   }
 
-  Future<User> userInfo(String username, BuildContext context) async {
+  userInfo(String username, BuildContext context) async {
     User user =
-        User(handle: "//", contribution: 0, titlePhoto: "//", friendOfCount: 0);
+        User(handle: "//", contribution: 0, titlePhoto: "//", friendOfCount: -1);
     try {
       final url = "https://codeforces.com/api/user.info?handles=$username";
-      http.Response response;
-      response = await http.get(Uri.parse(url));
+      http.Response response = await http.get(Uri.parse(url));
       if (response.statusCode == 200) {
         var body = jsonDecode(response.body);
         if (body["status"] == "OK") {
           var data = body["result"];
           var tempData = data.map((myData) => User.fromJson(myData)).toList();
+          print("data sent");
           return tempData[0];
         } else {
+          print("Data not sent");
           return user;
         }
       } else {
+        print(response.statusCode);
+        print("Data not found");
         return user;
       }
     } catch (e) {

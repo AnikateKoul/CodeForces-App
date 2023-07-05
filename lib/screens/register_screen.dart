@@ -60,17 +60,23 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         try {
                           bool isSignedUp =
                               await FirebaseServices().signInWithGoogle();
-                          bool isHandlePresent =
-                              await FireStoreServices().isHandlePresent();
+                          print("the value of isSignedUp is $isSignedUp");
+                          bool isHandlePresent = false;
+                          if(isSignedUp) {
+                              isHandlePresent = await FireStoreServices().isHandlePresent();
+                          }
                           if (isSignedUp && isHandlePresent) {
                             Navigator.pushReplacementNamed(context, homeScreen);
                           } else if (isSignedUp) {
                             await FireStoreServices().createUser();
                             Navigator.pushReplacementNamed(
                                 context, handleScreen);
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(makeSnackBar(text: "Login Failed! Please try again", color: kred, context: context));
                           }
+
                         } catch (e) {
-                          ScaffoldMessenger.of(context).showSnackBar(makeSnackBar(text: "Login unsuccessful. Please check your connection!", color: kred, context: context));
+                          ScaffoldMessenger.of(context).showSnackBar(makeSnackBar(text: "There appears to be some problem. Please check your internet connection!", color: kred, context: context));
                         }
                       },
                       style: ButtonStyle(

@@ -61,10 +61,15 @@ ExpansionTile tile1(
           IconButton(
               onPressed: () async {
                 if (phase == "BEFORE") {
-                  ScaffoldMessenger.of(context).showSnackBar(makeSnackBar(
-                      text: "The contest hasn't started yet!",
-                      color: kred,
-                      context: context));
+                  final Uri url =
+                      Uri.parse("https://codeforces.com/contests/$id");
+                  if (!await launchUrl(url,
+                      mode: LaunchMode.externalApplication)) {
+                    ScaffoldMessenger.of(context).showSnackBar(makeSnackBar(
+                        color: kred,
+                        text: "There was some problem. Please try again later.",
+                        context: context));
+                  }
                 } else {
                   final Uri url =
                       Uri.parse("https://codeforces.com/contest/$id");

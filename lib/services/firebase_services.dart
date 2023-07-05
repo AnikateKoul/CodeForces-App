@@ -19,6 +19,9 @@ class FirebaseServices {
         );
         await _auth.signInWithCredential(authCredential);
       }
+      else {
+        return false;
+      }
       return true;
     } on FirebaseAuthException catch (e) {
       print(e.message);
